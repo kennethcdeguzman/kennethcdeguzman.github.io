@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Aurora a Freefolio template by OSSPH</title>
+    <meta name="description" content="A modern dark portfolio template inspired by the Northern Lights with comprehensive sections and smooth animations">
+    <meta property="og:title" content="Aurora Portfolio Template">
+    <meta property="og:description" content="A Northern Lights inspired portfolio template with dark mode aesthetic">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Vue 3 via CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'aurora-green': '#00ffaa',
+                        'aurora-blue': '#00aaff',
+                        'aurora-purple': '#aa00ff',
+                        'aurora-pink': '#ff00aa',
+                        'dark-bg': '#0a0e1a',
+                        'dark-card': '#1a1f2e',
+                        'dark-border': '#2a2f3e'
+                    },
+                    animation: {
+                        'aurora': 'aurora 15s ease-in-out infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'glow': 'glow 2s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        aurora: {
+                            '0%, 100%': {
+                                backgroundPosition: '0% 50%',
+                                backgroundSize: '200% 200%'
+                            },
+                            '50%': {
+                                backgroundPosition: '100% 50%',
+                                backgroundSize: '200% 200%'
+                            }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        glow: {
+                            '0%, 100%': {
+                                boxShadow: '0 0 5px rgba(0, 255, 170, 0.5), 0 0 20px rgba(0, 255, 170, 0.3)'
+                            },
+                            '50%': {
+                                boxShadow: '0 0 20px rgba(0, 170, 255, 0.8), 0 0 40px rgba(0, 170, 255, 0.4)'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Aurora gradient background */
+        .aurora-bg {
+            background: linear-gradient(-45deg, #0a0e1a, #1a0033, #002244, #001a33);
+            background-size: 400% 400%;
+            animation: aurora 15s ease infinite;
+        }
+
+        /* Aurora light effect overlay */
+        .aurora-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100vh;
+            background:
+                radial-gradient(ellipse at top left, rgba(0, 255, 170, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at top right, rgba(0, 170, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at bottom left, rgba(170, 0, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(ellipse at bottom right, rgba(255, 0, 170, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0e1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #00ffaa, #00aaff);
+            border-radius: 5px;
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #00ffaa 0%, #00aaff 50%, #aa00ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Card hover effect */
+        .card-hover {
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .card-hover:hover {
+            border-color: #00ffaa;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 170, 0.2);
+        }
+
+        /* Progress bar animation */
+        @keyframes progressAnimation {
+            0% { width: 0%; }
+        }
+
+        .progress-bar {
+            animation: progressAnimation 2s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-dark-bg text-gray-200 aurora-bg" id="app">
+    <!-- Aurora overlay effect -->
+    <div class="aurora-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-dark-bg/90 backdrop-blur-md border-b border-dark-border z-50">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold gradient-text">{{ profile.name }}</div>
+                <ul class="hidden md:flex space-x-8">
+                    <li><a href="#home" class="hover:text-aurora-green transition">Home</a></li>
+                    <li><a href="#about" class="hover:text-aurora-green transition">About</a></li>
+                    <li><a href="#experience" class="hover:text-aurora-green transition">Experience</a></li>
+                    <li><a href="#skills" class="hover:text-aurora-green transition">Skills</a></li>
+                    <li><a href="#services" class="hover:text-aurora-green transition">Services</a></li>
+                    <li><a href="#portfolio" class="hover:text-aurora-green transition">Portfolio</a></li>
+                    <li><a href="#testimonials" class="hover:text-aurora-green transition">Testimonials</a></li>
+                    <li><a href="#blog" class="hover:text-aurora-green transition">Blog</a></li>
+                    <li><a href="#contact" class="hover:text-aurora-green transition">Contact</a></li>
+                </ul>
+                <!-- Mobile menu button -->
+                <button class="md:hidden" @click="toggleMobileMenu()">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            <!-- Mobile menu -->
+            <div :class="['hidden md:hidden mt-4 space-y-2', { 'hidden': !mobileMenuOpen }]" id="mobileMenu">
+                <a href="#home" class="block py-2 hover:text-aurora-green">Home</a>
+                <a href="#about" class="block py-2 hover:text-aurora-green">About</a>
+                <a href="#experience" class="block py-2 hover:text-aurora-green">Experience</a>
+                <a href="#skills" class="block py-2 hover:text-aurora-green">Skills</a>
+                <a href="#services" class="block py-2 hover:text-aurora-green">Services</a>
+                <a href="#portfolio" class="block py-2 hover:text-aurora-green">Portfolio</a>
+                <a href="#testimonials" class="block py-2 hover:text-aurora-green">Testimonials</a>
+                <a href="#blog" class="block py-2 hover:text-aurora-green">Blog</a>
+                <a href="#contact" class="block py-2 hover:text-aurora-green">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20 relative">
+        <div class="container mx-auto px-6 text-center z-10">
+            <div class="animate-slide-up">
+                <h1 class="text-5xl md:text-7xl font-bold mb-4">
+                    Hello, I'm <span class="gradient-text">{{ profile.fullName }}</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-400 mb-8">{{ profile.title }}</p>
+                <p class="text-lg text-gray-500 max-w-2xl mx-auto mb-12">
+                    {{ profile.tagline }}
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#portfolio" class="px-8 py-3 bg-gradient-to-r from-aurora-green to-aurora-blue rounded-full text-dark-bg font-semibold hover:shadow-lg hover:shadow-aurora-green/50 transition transform hover:scale-105">
+                        View My Work
+                    </a>
+                    <a :href="profile.cvUrl" class="px-8 py-3 border-2 border-aurora-green rounded-full hover:bg-aurora-green hover:text-dark-bg transition transform hover:scale-105">
+                        Download CV
+                    </a>
+                </div>
+                <div class="mt-12 flex justify-center space-x-6">
+                    <a :href="profile.social.github" class="text-2xl hover:text-aurora-green transition"><i class="fab fa-github"></i></a>
+                    <a :href="profile.social.linkedin" class="text-2xl hover:text-aurora-blue transition"><i class="fab fa-linkedin"></i></a>
+                    <a :href="profile.social.google" class="text-2xl hover:text-aurora-purple transition"><i class="fab fa-google"></i></a>
+                    <a :href="profile.social.instagram" class="text-2xl hover:text-aurora-pink transition"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- Animated particles -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute w-2 h-2 bg-aurora-green rounded-full animate-float" style="top: 20%; left: 10%;"></div>
+            <div class="absolute w-2 h-2 bg-aurora-blue rounded-full animate-float" style="top: 60%; left: 80%; animation-delay: 1s;"></div>
+            <div class="absolute w-2 h-2 bg-aurora-purple rounded-full animate-float" style="top: 40%; left: 60%; animation-delay: 2s;"></div>
+            <div class="absolute w-2 h-2 bg-aurora-pink rounded-full animate-float" style="top: 80%; left: 30%; animation-delay: 3s;"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">About Me</h2>
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <p v-for="(bio, index) in profile.bio" :key="index" class="text-gray-400 leading-relaxed">
+                        {{ bio }}
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 pt-4">
+                        <div v-for="stat in profile.stats" :key="stat.label" class="bg-dark-card p-4 rounded-lg border border-dark-border">
+                            <div class="text-3xl font-bold" :style="{ color: stat.color }">{{ stat.value }}</div>
+                            <div class="text-sm text-gray-400">{{ stat.label }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="w-80 h-80 mx-auto rounded-full bg-gradient-to-br from-aurora-green via-aurora-blue to-aurora-purple p-1">
+                        <div class="w-full h-full rounded-full bg-dark-bg flex items-center justify-center overflow-hidden">
+                            <img src="profile_image.jpg" alt="Profile" class="w-full h-full object-cover rounded-full">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 bg-dark-card/30">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Work Experience</h2>
+            <div class="max-w-4xl mx-auto space-y-8">
+                <div v-for="(exp, index) in profile.experience" :key="index" class="relative pl-8" :style="{ borderLeft: `2px solid ${exp.color}` }">
+                    <div class="absolute -left-2 top-0 w-4 h-4 rounded-full" :style="{ backgroundColor: exp.color }"></div>
+                    <div class="bg-dark-card p-6 rounded-lg card-hover">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-semibold" :style="{ color: exp.color }">{{ exp.position }}</h3>
+                            <span class="text-sm text-gray-400">{{ exp.dates }}</span>
+                        </div>
+                        <p class="text-gray-300 font-medium mb-2">{{ exp.company }}</p>
+                        <p class="text-gray-400">{{ exp.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Technical Skills</h2>
+            <div class="max-w-4xl mx-auto space-y-8">
+                <div v-for="skillGroup in profile.skills" :key="skillGroup.category">
+                    <h3 class="text-xl font-semibold mb-4" :style="{ color: skillGroup.color }">{{ skillGroup.category }}</h3>
+                    <div class="space-y-4">
+                        <div v-for="skill in skillGroup.items" :key="skill.name">
+                            <div class="flex justify-between mb-2">
+                                <span>{{ skill.name }}</span>
+                                <span>{{ skill.level }}%</span>
+                            </div>
+                            <div class="w-full bg-dark-card rounded-full h-2">
+                                <div class="h-2 rounded-full progress-bar" :style="{ width: skill.level + '%', background: `linear-gradient(to right, ${skill.color1}, ${skill.color2})` }"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools & Others -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4" style="color: #aa00ff;">Tools & DevOps</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div v-for="tool in profile.tools" :key="tool.name" class="bg-dark-card p-4 rounded-lg text-center card-hover">
+                            <i :class="`${tool.icon} text-2xl mb-2`" :style="{ color: tool.color }"></i>
+                            <p>{{ tool.name }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-dark-card/30">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Services</h2>
+            <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+                <div v-for="service in profile.services" :key="service.title" class="bg-dark-card p-6 rounded-lg card-hover text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br flex items-center justify-center" :style="{ backgroundImage: `linear-gradient(to bottom right, ${service.gradientFrom}, ${service.gradientTo})` }">
+                        <i :class="`${service.icon} text-2xl text-dark-bg`"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">{{ service.title }}</h3>
+                    <p class="text-gray-400">{{ service.description }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Portfolio</h2>
+            <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+                <div v-for="project in profile.portfolio" :key="project.title" class="bg-dark-card rounded-lg overflow-hidden card-hover group">
+                    <div class="h-48 flex items-center justify-center" :style="{ backgroundImage: `linear-gradient(to bottom right, ${project.gradientFrom}, ${project.gradientTo})` }">
+                        <i :class="`${project.icon} text-6xl text-dark-bg`"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">{{ project.title }}</h3>
+                        <p class="text-gray-400 mb-4">{{ project.description }}</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span v-for="tech in project.technologies" :key="tech" class="px-2 py-1 rounded text-xs" :style="{ backgroundColor: `${tech.color}20`, color: tech.color }">{{ tech.name }}</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a :href="project.liveUrl" target="_blank" class="text-aurora-green hover:text-aurora-blue transition">
+                                <i class="fas fa-external-link-alt"></i> Live
+                            </a>
+                            <a :href="project.githubUrl" target="_blank" class="text-aurora-green hover:text-aurora-blue transition">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 bg-dark-card/30">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Client Testimonials</h2>
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                <div v-for="testimonial in profile.testimonials" :key="testimonial.name" class="bg-dark-card p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br flex items-center justify-center text-xl font-bold text-dark-bg" :style="{ backgroundImage: `linear-gradient(to bottom right, ${testimonial.gradientFrom}, ${testimonial.gradientTo})` }">
+                            {{ testimonial.initials }}
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-semibold">{{ testimonial.name }}</h4>
+                            <p class="text-sm text-gray-400">{{ testimonial.title }}</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 italic">{{ testimonial.quote }}</p>
+                    <div class="mt-4" :style="{ color: testimonial.starColor }">
+                        <i v-for="n in 5" :key="n" class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Latest Blog Posts</h2>
+            <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+                <article v-for="post in profile.blog" :key="post.title" class="bg-dark-card rounded-lg overflow-hidden card-hover">
+                    <div class="h-48" :style="{ backgroundImage: `linear-gradient(to bottom right, ${post.gradientFrom}, ${post.gradientTo})` }"></div>
+                    <div class="p-6">
+                        <div class="text-sm text-gray-400 mb-2">{{ post.date }}</div>
+                        <h3 class="text-xl font-semibold mb-3">{{ post.title }}</h3>
+                        <p class="text-gray-400 mb-4">{{ post.excerpt }}</p>
+                        <a :href="post.url" class="text-aurora-green hover:text-aurora-blue transition">
+                            Read More →
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-dark-card/30">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Get In Touch</h2>
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="space-y-6">
+                        <div v-for="contact in profile.contactInfo" :key="contact.label" class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br flex items-center justify-center" :style="{ backgroundImage: `linear-gradient(to bottom right, ${contact.gradientFrom}, ${contact.gradientTo})` }">
+                                <i :class="`${contact.icon} text-dark-bg`"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-400">{{ contact.label }}</p>
+                                <p>{{ contact.value }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form @submit.prevent="submitForm" class="space-y-4">
+                        <input v-model="formData.name" type="text" placeholder="Your Name" class="w-full px-4 py-3 bg-dark-card border border-dark-border rounded-lg focus:outline-none focus:border-aurora-green">
+                        <input v-model="formData.email" type="email" placeholder="Your Email" class="w-full px-4 py-3 bg-dark-card border border-dark-border rounded-lg focus:outline-none focus:border-aurora-green">
+                        <textarea v-model="formData.message" placeholder="Your Message" rows="4" class="w-full px-4 py-3 bg-dark-card border border-dark-border rounded-lg focus:outline-none focus:border-aurora-green"></textarea>
+                        <button type="submit" class="w-full px-8 py-3 bg-gradient-to-r from-aurora-green to-aurora-blue rounded-lg text-dark-bg font-semibold hover:shadow-lg hover:shadow-aurora-green/50 transition transform hover:scale-105">
+                            Send Message
+                        </button>
+                        <div v-if="formMessage" :class="['text-center py-2 rounded', { 'text-green-400 bg-green-900/20': formStatus === 'success', 'text-red-400 bg-red-900/20': formStatus === 'error' }]">
+                            {{ formMessage }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-dark-border">
+        <div class="container mx-auto px-6 text-center">
+            <div class="mb-4">
+                <a :href="profile.social.github" target="_blank" class="text-2xl mx-2 hover:text-aurora-green transition"><i class="fab fa-github"></i></a>
+                <a :href="profile.social.linkedin" target="_blank" class="text-2xl mx-2 hover:text-aurora-blue transition"><i class="fab fa-linkedin"></i></a>
+                <a :href="profile.social.google" target="_blank" class="text-2xl mx-2 hover:text-aurora-purple transition"><i class="fab fa-google"></i></a>
+                <a :href="profile.social.instagram" target="_blank" class="text-2xl mx-2 hover:text-aurora-pink transition"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p class="text-gray-400">
+                © {{ currentYear }} {{ profile.fullName }}. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Vue 3 Application
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    mobileMenuOpen: false,
+                    currentYear: new Date().getFullYear(),
+                    formData: {
+                        name: '',
+                        email: '',
+                        message: ''
+                    },
+                    formMessage: '',
+                    formStatus: '',
+                    profile: {
+                        name: 'Kenneth',
+                        fullName: 'Kenneth De Guzman',
+                        title: 'Senior Cloud & DevOps Engineer | System Architect | MLOps Engineer',
+                        tagline: 'Architecting scalable cloud systems and automating reliable delivery from code to production.',
+                        emoji: '👨‍💻',
+                        cvUrl: 'https://drive.google.com/file/d/1BdswRCw-MZReYKBDPZ4RSxmpbPsODfX6/view?usp=sharing',
+                        social: {
+                            github: 'https://github.com/kennethcdeguzman',
+                            linkedin: 'https://linkedin.com/in/kennethcdeguzman',
+                            google: 'mailto:kennethcdeguzman@gmail.com',
+                            instagram: 'https://instagram.com/the_kennymac'
+                        },
+                        bio: [
+                            'With over a decade of experience in cloud engineering and DevOps, I specialize in designing and operating scalable, secure, and automated cloud platforms that support modern application and data workloads. My professional journey began with a strong foundation in software engineering and system operations, which naturally evolved into building cloud-native and infrastructure-as-code driven environments. Today, I work extensively with AWS, Kubernetes, and Terraform to deliver resilient infrastructure and CI/CD pipelines for enterprise-scale systems.',
+                            'I have led initiatives spanning GitOps, container orchestration, observability, and cloud security, enabling teams to ship reliably from development to production. A significant part of my work focuses on Machine Learning Operations, where I help bridge the gap between experimentation and production by automating infrastructure, pipelines, and monitoring for ML-driven systems.',
+                            'I have hands-on experience supporting data and ML workloads through scalable storage, serverless compute, messaging systems, and production-grade monitoring. My approach emphasizes automation, least-privilege security, and operational excellence to ensure systems are maintainable and cost-efficient at scale. I am passionate about turning complex cloud and MLOps challenges into practical, production-ready solutions that drive real business impact'
+                        ],
+                        stats: [
+                            { value: '30+', label: 'Projects Completed', color: '#00ffaa' },
+                            { value: '10', label: 'Happy Clients', color: '#00aaff' },
+                            { value: '8+', label: 'Years Experience', color: '#aa00ff' },
+                            { value: '9', label: 'I.T. Certifications', color: '#ff00aa' }
+                        ],
+                        experience: [
+                            {
+                            position: 'Senior Cloud Engineer',
+                            company: 'Versent (via Microsourcing)',
+                            dates: 'May 2023 - Present',
+                            color: '#3b82f6', // Vibrant blue
+                            description: 'Design and provision AWS cloud infrastructure using AWS CDK and Terraform. Lead cloud migrations, implement Kubernetes platforms, build secure networking architectures, and develop CI/CD pipelines for enterprise clients including NSW Rural Fire Services and Ramsay Health Care.'
+                            },
+                            {
+                            position: 'DevOps Engineer – Technical Lead',
+                            company: 'OpsWerks',
+                            dates: 'November 2020 - April 2023',
+                            color: '#14b8a6', // Vibrant teal
+                            description: 'Led DevOps and cloud engineering initiatives including CI/CD automation, Kubernetes operations, Terraform-based infrastructure, and monitoring solutions. Managed multi-account AWS environments, cost optimization strategies, and enterprise-grade observability platforms.'
+                            },
+                            {
+                            position: 'Senior DevOps Engineer',
+                            company: 'Carlson Wagonlit Travel (via Collabera)',
+                            dates: 'February 2018 - May 2020',
+                            color: '#6366f1', // Vibrant indigo
+                            description: 'Built and maintained cloud-native microservices on AWS using ECS, EKS, Lambda, and API Gateway. Implemented CI/CD pipelines, centralized logging, monitoring, and developed serverless backend services using Node.js and Kotlin.'
+                            },
+                            {
+                            position: 'Senior Web Developer',
+                            company: 'Incuventure Partnership Inc.',
+                            dates: 'May 2017 - February 2018',
+                            color: '#f59e0b', // Vibrant amber
+                            description: 'Developed enterprise web and mobile applications using Java Spring Boot and AngularJS. Built RESTful APIs, SOAP services, and supported healthcare transaction platforms serving hospitals and clinics.'
+                            },
+                            {
+                            position: 'Systems Analyst',
+                            company: 'Citibank N.A.',
+                            dates: 'May 2012 - February 2017',
+                            color: '#ef4444', // Vibrant red
+                            description: 'Handled systems operations, data reconciliation, and production support for financial systems. Supported monthly financial reporting and release management for enterprise banking applications.'
+                            }
+                        ],
+                        skills: [
+                            {
+                            category: 'Cloud & DevOps',
+                            color: '#3b82f6',
+                            items: [
+                                { name: 'AWS (EC2, EKS, ECS, Lambda)', level: 95, color1: '#3b82f6', color2: '#22d3ee' },
+                                { name: 'Terraform / AWS CDK', level: 94, color1: '#22d3ee', color2: '#6366f1' },
+                                { name: 'CI/CD (TeamCity, Jenkins, CodePipeline)', level: 92, color1: '#6366f1', color2: '#a855f7' }
+                            ]
+                            },
+                            {
+                            category: 'Containers & Orchestration',
+                            color: '#22d3ee',
+                            items: [
+                                { name: 'Kubernetes (EKS)', level: 94, color1: '#22d3ee', color2: '#34d399' },
+                                { name: 'Docker', level: 92, color1: '#34d399', color2: '#3b82f6' },
+                                { name: 'HashiCorp Nomad', level: 85, color1: '#3b82f6', color2: '#6366f1' }
+                            ]
+                            },
+                            {
+                            category: 'Backend Development',
+                            color: '#6366f1',
+                            items: [
+                                { name: 'Node.js (Serverless APIs)', level: 88, color1: '#6366f1', color2: '#a855f7' },
+                                { name: 'Python', level: 90, color1: '#a855f7', color2: '#ec4899' },
+                                { name: 'Java / Kotlin (Spring Boot)', level: 87, color1: '#ec4899', color2: '#f97316' }
+                            ]
+                            },
+                            {
+                            category: 'Frontend Development',
+                            color: '#f97316',
+                            items: [
+                                { name: 'Angular / AngularJS', level: 85, color1: '#f97316', color2: '#facc15' },
+                                { name: 'JavaScript / TypeScript', level: 88, color1: '#facc15', color2: '#22d3ee' },
+                                { name: 'jQuery', level: 80, color1: '#22d3ee', color2: '#3b82f6' }
+                            ]
+                            },
+                            {
+                            category: 'Databases & Messaging',
+                            color: '#34d399',
+                            items: [
+                                { name: 'MySQL / Oracle / PL-SQL', level: 88, color1: '#34d399', color2: '#22d3ee' },
+                                { name: 'DynamoDB / Cassandra', level: 90, color1: '#22d3ee', color2: '#6366f1' },
+                                { name: 'Kafka', level: 85, color1: '#6366f1', color2: '#a855f7' }
+                            ]
+                            },
+                            {
+                            category: 'Observability & Automation',
+                            color: '#a855f7',
+                            items: [
+                                { name: 'Prometheus / Grafana / Alertmanager', level: 92, color1: '#a855f7', color2: '#ec4899' },
+                                { name: 'ELK Stack (Fluentd, Elasticsearch, Kibana)', level: 90, color1: '#ec4899', color2: '#f97316' },
+                                { name: 'Ansible / Bash / PowerShell', level: 88, color1: '#f97316', color2: '#22d3ee' }
+                            ]
+                            }
+                        ],
+                        tools: [
+                              { name: 'AWS', icon: 'fab fa-aws', color: '#3b82f6' },
+                                { name: 'Docker', icon: 'fab fa-docker', color: '#22d3ee' },
+                                { name: 'Kubernetes', icon: 'fas fa-network-wired', color: '#6366f1' },
+                                { name: 'Terraform', icon: 'fas fa-cubes', color: '#a855f7' },
+                                { name: 'AWS CDK', icon: 'fas fa-code', color: '#ec4899' },
+                                { name: 'CI/CD', icon: 'fas fa-infinity', color: '#f97316' },
+                                { name: 'Jenkins', icon: 'fab fa-jenkins', color: '#facc15' },
+                                { name: 'TeamCity', icon: 'fas fa-project-diagram', color: '#34d399' },
+                                { name: 'Git', icon: 'fab fa-git-alt', color: '#ef4444' },
+                                { name: 'Linux', icon: 'fab fa-linux', color: '#22c55e' },
+                                { name: 'Node.js', icon: 'fab fa-node-js', color: '#16a34a' },
+                                { name: 'Python', icon: 'fab fa-python', color: '#0ea5e9' },
+                                { name: 'Java', icon: 'fab fa-java', color: '#f43f5e' },
+                                { name: 'Kotlin', icon: 'fas fa-bolt', color: '#8b5cf6' },
+                                { name: 'Angular', icon: 'fab fa-angular', color: '#e11d48' },
+                                { name: 'Prometheus', icon: 'fas fa-chart-line', color: '#fb7185' },
+                                { name: 'Grafana', icon: 'fas fa-chart-pie', color: '#f59e0b' },
+                                { name: 'ELK Stack', icon: 'fas fa-layer-group', color: '#06b6d4' }
+                        ],
+                        services: [
+                                {
+                                    title: 'Cloud Architecture & Engineering',
+                                    description: 'Design and implementation of scalable, secure AWS cloud architectures using best practices, multi-account strategies, and cost-optimized solutions.',
+                                    icon: 'fas fa-cloud',
+                                    gradientFrom: '#3b82f6',
+                                    gradientTo: '#22d3ee'
+                                },
+                                {
+                                    title: 'DevOps & CI/CD Automation',
+                                    description: 'End-to-end CI/CD pipelines, infrastructure automation, and release engineering using Jenkins, TeamCity, AWS CodePipeline, and Git-based workflows.',
+                                    icon: 'fas fa-infinity',
+                                    gradientFrom: '#22d3ee',
+                                    gradientTo: '#6366f1'
+                                },
+                                {
+                                    title: 'Kubernetes & Containers',
+                                    description: 'Production-grade container orchestration with Kubernetes (EKS), Docker, ECS, autoscaling, and secure workload deployments.',
+                                    icon: 'fas fa-network-wired',
+                                    gradientFrom: '#6366f1',
+                                    gradientTo: '#a855f7'
+                                },
+                                {
+                                    title: 'Backend & API Development',
+                                    description: 'Cloud-native backend systems and APIs using Node.js, Python, Java, and Kotlin, including serverless architectures with AWS Lambda.',
+                                    icon: 'fas fa-server',
+                                    gradientFrom: '#a855f7',
+                                    gradientTo: '#ec4899'
+                                },
+                                {
+                                    title: 'Infrastructure as Code',
+                                    description: 'Fully automated infrastructure provisioning using Terraform, Terragrunt, AWS CDK, and CloudFormation with security-first design.',
+                                    icon: 'fas fa-code-branch',
+                                    gradientFrom: '#ec4899',
+                                    gradientTo: '#f97316'
+                                },
+                                {
+                                    title: 'Monitoring & Observability',
+                                    description: 'Centralized logging, metrics, and alerting using Prometheus, Grafana, ELK Stack, Dynatrace, and proactive incident monitoring.',
+                                    icon: 'fas fa-chart-line',
+                                    gradientFrom: '#f97316',
+                                    gradientTo: '#22d3ee'
+                                }
+                            ],
+                        portfolio: [
+                            {
+                                title: 'E-Commerce Platform',
+                                description: 'Full-stack e-commerce solution with payment integration',
+                                icon: 'fas fa-shopping-cart',
+                                gradientFrom: '#00ffaa',
+                                gradientTo: '#00aaff',
+                                technologies: [
+                                    { name: 'React', color: '#00ffaa' },
+                                    { name: 'Node.js', color: '#00aaff' },
+                                    { name: 'MongoDB', color: '#aa00ff' }
+                                ],
+                                liveUrl: '#',
+                                githubUrl: '#'
+                            },
+                            {
+                                title: 'Social Media Dashboard',
+                                description: 'Analytics dashboard for social media management',
+                                icon: 'fas fa-users',
+                                gradientFrom: '#00aaff',
+                                gradientTo: '#aa00ff',
+                                technologies: [
+                                    { name: 'Vue.js', color: '#00ffaa' },
+                                    { name: 'Python', color: '#00aaff' },
+                                    { name: 'PostgreSQL', color: '#aa00ff' }
+                                ],
+                                liveUrl: '#',
+                                githubUrl: '#'
+                            },
+                            {
+                                title: 'Gaming Platform',
+                                description: 'Real-time multiplayer gaming platform',
+                                icon: 'fas fa-gamepad',
+                                gradientFrom: '#aa00ff',
+                                gradientTo: '#ff00aa',
+                                technologies: [
+                                    { name: 'Next.js', color: '#00ffaa' },
+                                    { name: 'Socket.io', color: '#00aaff' },
+                                    { name: 'Redis', color: '#aa00ff' }
+                                ],
+                                liveUrl: '#',
+                                githubUrl: '#'
+                            }
+                        ],
+                        testimonials: [
+                            {
+                                name: 'John Doe',
+                                title: 'CEO, TechStart',
+                                initials: 'JD',
+                                quote: 'Alex delivered an exceptional product that exceeded our expectations. Their technical expertise and attention to detail made our project a huge success.',
+                                gradientFrom: '#00ffaa',
+                                gradientTo: '#00aaff',
+                                starColor: '#00ffaa'
+                            },
+                            {
+                                name: 'Sarah Miller',
+                                title: 'Product Manager, InnovateCo',
+                                initials: 'SM',
+                                quote: 'Working with Alex was a fantastic experience. They brought our vision to life with creativity and technical excellence.',
+                                gradientFrom: '#00aaff',
+                                gradientTo: '#aa00ff',
+                                starColor: '#00aaff'
+                            }
+                        ],
+                        blog: [
+                            {
+                                title: 'The Future of Web Development',
+                                date: 'March 15, 2024',
+                                excerpt: 'Exploring emerging trends and technologies shaping the future of web development...',
+                                gradientFrom: '#00ffaa',
+                                gradientTo: '#00aaff',
+                                url: '#'
+                            },
+                            {
+                                title: 'Building Scalable Applications',
+                                date: 'March 10, 2024',
+                                excerpt: 'Best practices for building applications that scale efficiently with growing demand...',
+                                gradientFrom: '#00aaff',
+                                gradientTo: '#aa00ff',
+                                url: '#'
+                            },
+                            {
+                                title: 'UI/UX Design Principles',
+                                date: 'March 5, 2024',
+                                excerpt: 'Essential design principles for creating user-friendly and aesthetic interfaces...',
+                                gradientFrom: '#aa00ff',
+                                gradientTo: '#ff00aa',
+                                url: '#'
+                            }
+                        ],
+                        contactInfo: [
+                            {
+                                label: 'Email',
+                                value: 'kennethcdeguzman@gmai.com',
+                                icon: 'fas fa-envelope',
+                                gradientFrom: '#3b82f6',
+                                gradientTo: '#22d3ee'
+                            },
+                            {
+                                label: 'Phone',
+                                value: '+63 961 140 2305',
+                                icon: 'fas fa-phone',
+                                gradientFrom: '#22d3ee',
+                                gradientTo: '#6366f1'
+                            },
+                            {
+                                label: 'LinkedIn',
+                                value: 'linkedin.com/in/kennethcdeguzman',
+                                icon: 'fab fa-linkedin',
+                                gradientFrom: '#6366f1',
+                                gradientTo: '#a855f7'
+                            }
+                        ]
+                    }
+                }
+            },
+            methods: {
+                toggleMobileMenu() {
+                    this.mobileMenuOpen = !this.mobileMenuOpen;
+                    // Close menu when clicking on a link
+                    document.querySelectorAll('#mobileMenu a').forEach(link => {
+                        link.addEventListener('click', () => {
+                            this.mobileMenuOpen = false;
+                        });
+                    });
+                },
+                submitForm() {
+                    // Basic form validation
+                    if (!this.formData.name || !this.formData.email || !this.formData.message) {
+                        this.formMessage = 'Please fill in all fields';
+                        this.formStatus = 'error';
+                        setTimeout(() => {
+                            this.formMessage = '';
+                        }, 3000);
+                        return;
+                    }
+
+                    // Simulate form submission (replace with actual API call)
+                    console.log('Form submitted:', this.formData);
+                    
+                    this.formMessage = 'Message sent successfully! Thank you for reaching out.';
+                    this.formStatus = 'success';
+                    
+                    // Reset form
+                    this.formData = { name: '', email: '', message: '' };
+                    
+                    setTimeout(() => {
+                        this.formMessage = '';
+                    }, 5000);
+                }
+            },
+            mounted() {
+                // Add animation on scroll
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -100px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-slide-up');
+                        }
+                    });
+                }, observerOptions);
+
+                // Observe sections for animation
+                document.querySelectorAll('section').forEach(section => {
+                    observer.observe(section);
+                });
+
+                // Smooth scroll for navigation links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        const href = this.getAttribute('href');
+                        if (href !== '#') {
+                            e.preventDefault();
+                            const target = document.querySelector(href);
+                            if (target) {
+                                target.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                                // Close mobile menu after navigation
+                                this.$nextTick(() => {
+                                    if (window.innerWidth < 768) {
+                                        this.mobileMenuOpen = false;
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

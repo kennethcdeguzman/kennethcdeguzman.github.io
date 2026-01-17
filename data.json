@@ -1,0 +1,232 @@
+{
+  "profile": {
+    "name": "Kenneth",
+    "fullName": "Kenneth De Guzman",
+    "title": "Full-Stack Developer | UI/UX Designer | Tech Innovator",
+    "tagline": "Crafting digital experiences that illuminate the web like the Northern Lights. Passionate about cutting-edge technology and beautiful, functional design.",
+    "emoji": "👨‍💻",
+    "cvUrl": "resume.pdf",
+    "social": {
+      "github": "https://github.com",
+      "linkedin": "https://linkedin.com",
+      "twitter": "https://twitter.com",
+      "instagram": "https://instagram.com"
+    },
+    "bio": [
+      "With over 7 years of experience in web development and design, I specialize in creating immersive digital experiences that captivate users and drive business growth.",
+      "My journey began with a fascination for the intersection of art and technology. Today, I work with cutting-edge technologies to build scalable, performant applications that push the boundaries of what's possible on the web."
+    ],
+    "stats": [
+      { "value": "100+", "label": "Projects Completed", "color": "#00ffaa" },
+      { "value": "50+", "label": "Happy Clients", "color": "#00aaff" },
+      { "value": "7+", "label": "Years Experience", "color": "#aa00ff" },
+      { "value": "15+", "label": "Awards Won", "color": "#ff00aa" }
+    ],
+    "experience": [
+      {
+        "position": "Senior Full-Stack Developer",
+        "company": "Tech Innovations Inc.",
+        "dates": "2021 - Present",
+        "color": "#00ffaa",
+        "description": "Lead development of enterprise-scale web applications, mentor junior developers, and architect cloud-native solutions using modern tech stacks."
+      },
+      {
+        "position": "Full-Stack Developer",
+        "company": "Digital Solutions Agency",
+        "dates": "2019 - 2021",
+        "color": "#00aaff",
+        "description": "Developed custom web applications for various clients, implemented responsive designs, and optimized application performance."
+      },
+      {
+        "position": "Frontend Developer",
+        "company": "Creative Web Studio",
+        "dates": "2017 - 2019",
+        "color": "#aa00ff",
+        "description": "Created interactive user interfaces, implemented design mockups, and ensured cross-browser compatibility for client projects."
+      }
+    ],
+    "skills": [
+      {
+        "category": "Frontend Development",
+        "color": "#00ffaa",
+        "items": [
+          { "name": "React / Next.js", "level": 95, "color1": "#00ffaa", "color2": "#00aaff" },
+          { "name": "TypeScript", "level": 90, "color1": "#00aaff", "color2": "#aa00ff" },
+          { "name": "Tailwind CSS", "level": 85, "color1": "#aa00ff", "color2": "#ff00aa" }
+        ]
+      },
+      {
+        "category": "Backend Development",
+        "color": "#00aaff",
+        "items": [
+          { "name": "Node.js / Express", "level": 90, "color1": "#00ffaa", "color2": "#00aaff" },
+          { "name": "Python / Django", "level": 85, "color1": "#00aaff", "color2": "#aa00ff" },
+          { "name": "PostgreSQL / MongoDB", "level": 88, "color1": "#aa00ff", "color2": "#ff00aa" }
+        ]
+      }
+    ],
+    "tools": [
+      { "name": "Docker", "icon": "fab fa-docker", "color": "#00ffaa" },
+      { "name": "AWS", "icon": "fab fa-aws", "color": "#00aaff" },
+      { "name": "Git", "icon": "fab fa-git", "color": "#aa00ff" },
+      { "name": "CI/CD", "icon": "fas fa-infinity", "color": "#ff00aa" }
+    ],
+    "services": [
+      {
+        "title": "Web Development",
+        "description": "Custom web applications built with modern frameworks and best practices for optimal performance.",
+        "icon": "fas fa-laptop-code",
+        "gradientFrom": "#00ffaa",
+        "gradientTo": "#00aaff"
+      },
+      {
+        "title": "Mobile Development",
+        "description": "Native and cross-platform mobile applications that deliver seamless user experiences.",
+        "icon": "fas fa-mobile-alt",
+        "gradientFrom": "#00aaff",
+        "gradientTo": "#aa00ff"
+      },
+      {
+        "title": "UI/UX Design",
+        "description": "Beautiful, intuitive interfaces designed with user experience at the forefront.",
+        "icon": "fas fa-palette",
+        "gradientFrom": "#aa00ff",
+        "gradientTo": "#ff00aa"
+      },
+      {
+        "title": "Cloud Solutions",
+        "description": "Scalable cloud architecture and deployment strategies for modern applications.",
+        "icon": "fas fa-cloud",
+        "gradientFrom": "#ff00aa",
+        "gradientTo": "#00ffaa"
+      },
+      {
+        "title": "Consulting",
+        "description": "Technical consulting and strategic planning for digital transformation initiatives.",
+        "icon": "fas fa-chart-line",
+        "gradientFrom": "#00ffaa",
+        "gradientTo": "#aa00ff"
+      },
+      {
+        "title": "API Integration",
+        "description": "Seamless third-party API integrations and custom API development.",
+        "icon": "fas fa-cogs",
+        "gradientFrom": "#00aaff",
+        "gradientTo": "#ff00aa"
+      }
+    ],
+    "portfolio": [
+      {
+        "title": "E-Commerce Platform",
+        "description": "Full-stack e-commerce solution with payment integration",
+        "icon": "fas fa-shopping-cart",
+        "gradientFrom": "#00ffaa",
+        "gradientTo": "#00aaff",
+        "technologies": [
+          { "name": "React", "color": "#00ffaa" },
+          { "name": "Node.js", "color": "#00aaff" },
+          { "name": "MongoDB", "color": "#aa00ff" }
+        ],
+        "liveUrl": "#",
+        "githubUrl": "#"
+      },
+      {
+        "title": "Social Media Dashboard",
+        "description": "Analytics dashboard for social media management",
+        "icon": "fas fa-users",
+        "gradientFrom": "#00aaff",
+        "gradientTo": "#aa00ff",
+        "technologies": [
+          { "name": "Vue.js", "color": "#00ffaa" },
+          { "name": "Python", "color": "#00aaff" },
+          { "name": "PostgreSQL", "color": "#aa00ff" }
+        ],
+        "liveUrl": "#",
+        "githubUrl": "#"
+      },
+      {
+        "title": "Gaming Platform",
+        "description": "Real-time multiplayer gaming platform",
+        "icon": "fas fa-gamepad",
+        "gradientFrom": "#aa00ff",
+        "gradientTo": "#ff00aa",
+        "technologies": [
+          { "name": "Next.js", "color": "#00ffaa" },
+          { "name": "Socket.io", "color": "#00aaff" },
+          { "name": "Redis", "color": "#aa00ff" }
+        ],
+        "liveUrl": "#",
+        "githubUrl": "#"
+      }
+    ],
+    "testimonials": [
+      {
+        "name": "John Doe",
+        "title": "CEO, TechStart",
+        "initials": "JD",
+        "quote": "Alex delivered an exceptional product that exceeded our expectations. Their technical expertise and attention to detail made our project a huge success.",
+        "gradientFrom": "#00ffaa",
+        "gradientTo": "#00aaff",
+        "starColor": "#00ffaa"
+      },
+      {
+        "name": "Sarah Miller",
+        "title": "Product Manager, InnovateCo",
+        "initials": "SM",
+        "quote": "Working with Alex was a fantastic experience. They brought our vision to life with creativity and technical excellence.",
+        "gradientFrom": "#00aaff",
+        "gradientTo": "#aa00ff",
+        "starColor": "#00aaff"
+      }
+    ],
+    "blog": [
+      {
+        "title": "The Future of Web Development",
+        "date": "March 15, 2024",
+        "excerpt": "Exploring emerging trends and technologies shaping the future of web development...",
+        "gradientFrom": "#00ffaa",
+        "gradientTo": "#00aaff",
+        "url": "#"
+      },
+      {
+        "title": "Building Scalable Applications",
+        "date": "March 10, 2024",
+        "excerpt": "Best practices for building applications that scale efficiently with growing demand...",
+        "gradientFrom": "#00aaff",
+        "gradientTo": "#aa00ff",
+        "url": "#"
+      },
+      {
+        "title": "UI/UX Design Principles",
+        "date": "March 5, 2024",
+        "excerpt": "Essential design principles for creating user-friendly and aesthetic interfaces...",
+        "gradientFrom": "#aa00ff",
+        "gradientTo": "#ff00aa",
+        "url": "#"
+      }
+    ],
+    "contactInfo": [
+      {
+        "label": "Email",
+        "value": "alex@aurora.dev",
+        "icon": "fas fa-envelope",
+        "gradientFrom": "#00ffaa",
+        "gradientTo": "#00aaff"
+      },
+      {
+        "label": "Phone",
+        "value": "+1 (555) 123-4567",
+        "icon": "fas fa-phone",
+        "gradientFrom": "#00aaff",
+        "gradientTo": "#aa00ff"
+      },
+      {
+        "label": "Location",
+        "value": "San Francisco, CA",
+        "icon": "fas fa-map-marker-alt",
+        "gradientFrom": "#aa00ff",
+        "gradientTo": "#ff00aa"
+      }
+    ]
+  }
+}
